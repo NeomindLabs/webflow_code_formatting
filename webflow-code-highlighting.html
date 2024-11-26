@@ -1,0 +1,62 @@
+<!-- Load highlight.js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<!-- Add a coloured background to code blocks -->
+<style>
+  pre:has(> code.hljs) {
+    background-color: #f2f2f2;
+  }
+</style>
+
+<!-- Reformat the code block HTML to be single blocks of <pre><code> elements, -->
+<!-- which is the format that highlight.js expects. -->
+<script>
+  // Function to reformat code blocks for Highlight.js
+  function reformatCodeBlocks() {
+    // Find all <p> elements in the document
+    const paragraphs = document.querySelectorAll("p");
+
+    paragraphs.forEach(paragraph => {
+      // Check if the <p> contains plain text outside of <code> tags
+      const plainText = Array.from(paragraph.childNodes).some(node => 
+        node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== ""
+      );
+
+      // Skip <p> elements that contain plain text
+      if (plainText) {
+        return;
+      }
+
+      // Check if the <p> contains <code>
+      const codeElements = paragraph.querySelectorAll("code");
+      if (codeElements.length > 0) {
+        // Collect the text content of all <code> elements
+        let combinedCode = "";
+        codeElements.forEach(codeElement => {
+          // Replace <br/> with newlines, &nbsp; with spaces, and tabs with double spaces
+          combinedCode += codeElement.innerHTML
+            .replace(/<br\s*\/?>/g, "\n")  // Convert line breaks
+            .replace(/&nbsp;/g, " ")       // Replace non-breaking spaces
+            .replace(/\t/g, "  ")          // Convert tabs to double spaces
+            .trim() + "\n";
+        });
+
+        // Create a new <pre><code> element
+        const preCode = document.createElement("pre");
+        const codeBlock = document.createElement("code");
+        codeBlock.textContent = combinedCode.trim(); // Use textContent to prevent HTML rendering
+        preCode.appendChild(codeBlock);
+
+        // Replace the <p> with the new <pre><code> block
+        paragraph.replaceWith(preCode);
+      }
+    });
+  }
+
+  // Run the reformatting function
+  reformatCodeBlocks();
+
+  // Highlight all code blocks on the page using Highlight.js
+  hljs.highlightAll();
+</script>
