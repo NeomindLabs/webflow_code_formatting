@@ -12,6 +12,9 @@ Now, go to your site's Webflow settings, and add [this HTML snippet](/webflow-co
 - Reformat Webflow's code block HTML elements to be single blocks of `<pre><code>` elements.
 - *Then* apply Highlight.js.
 
+Save this footer, and publish your site for these changes to take effect.
+![Screenshot 2024-11-26 at 2 15 20 PM](https://github.com/user-attachments/assets/bc8545eb-808c-477c-938d-5fda7df51da3)
+
 Without restructuring Webflows code block HTML elements to be single blocks of `<pre><code>` elements, Highlight.js will not pick them up at all.
 
 Good luck!
